@@ -69,7 +69,8 @@ To authenticate with the parent API you need to provide your email address and p
 With each request you must specify your `authorization` token, and optionally your student ID in the URL. However, it is **required** to specify the student ID when using the parent API, as Classcharts needs to know which student you would like to get data for.
 
 # Student API
-The base URL for the student API is `https://www.classcharts.com/apiv2student`
+The base URL for the student API is `https://www.classcharts.com/apiv2student`  
+
 ## Student Info
 ```typescript
 const data = await studentClient.getStudentInfo()
@@ -80,6 +81,8 @@ console.log(data)
 curl "https://www.classcharts.com/apiv2student/ping"  \
   -H 'Authorization: Basic 5vf2v7n5uk9jftrxaarrik39vk6yjm48'
 ```
+
+`GET https://www.classcharts.com/apiv2student/ping` 
 
 Gets basic information about the logged in student and what access they have.
 
@@ -96,15 +99,20 @@ const specificData = await studentClient.getActivity({
 console.log(specificData)
 ```
 ```shell
-curl "https://www.classcharts.com/apiv2student/activity"  \
+curl "https://www.classcharts.com/apiv2student/activity/2339528"  \
   -H 'Authorization: Basic 5vf2v7n5uk9jftrxaarrik39vk6yjm48'
 
-curl "https://www.classcharts.com/apiv2student/activity?from=2000-12-20&to=2022-03-20&last_id=4563278"  \
+curl "https://www.classcharts.com/apiv2student/activity/2339528?from=2000-12-20&to=2022-03-20&last_id=4563278"  \
   -H 'Authorization: Basic 5vf2v7n5uk9jftrxaarrik39vk6yjm48'
 ```
-
+`GET https://www.classcharts.com/apiv2student/activity/[userId]` 
+ 
 This endpoint gets the latest behaviour points for the logged in user. Optional `from` and `to` fields can be used to scope the request to specific dates. The `last_id` is used by Classcharts for paginiation, and can be used to get results after a specific behaviour point.
 
+Parameter | Required | Description
+--------- | -------- | -----------
+from | false | From date
+to | false | To Date
 <aside class="notice">
     The <code>from</code> field does not work as you would expect, since this endpoint is meant for use only on the homepage of Classcharts, Classcharts returns a set amount of points from the `to` field. To get more points you will need to make use of the <code>last_id</code> field
 </aside>
@@ -128,9 +136,14 @@ curl "https://www.classcharts.com/apiv2student/behaviour/2339528"  \
 curl "https://www.classcharts.com/apiv2student/behaviour/2339528?from=2000-12-20&to=2022-03-20"  \
   -H 'Authorization: Basic 5vf2v7n5uk9jftrxaarrik39vk6yjm48'
 ```
-
+`GET https://www.classcharts.com/apiv2student/behaviour/[userId]` 
+ 
 This endpoint returns basic statistics on how many of each type of behaviour point the logged in student has recieved. Optional `from` and `to` fields can be used to get statistics between two dates.
 
+Parameter | Required | Description
+--------- | -------- | -----------
+from | false | From date
+to | false | To Date
 ## Get Homeworks
 
 ```typescript
@@ -152,9 +165,15 @@ curl "https://www.classcharts.com/apiv2student/homeworks/2339528"  \
 curl "https://www.classcharts.com/apiv2student/homeworks/2339528?display_date=due_date&from=2000-12-20&to=2022-03-20"  \
   -H 'Authorization: Basic 5vf2v7n5uk9jftrxaarrik39vk6yjm48'
 ```
-
+`GET https://www.classcharts.com/apiv2student/homeworks/[userId]` 
+ 
 This endpoint returns homeworks the logged in user has. Optional `from` and `to` fields can be used to scope the request. The `display_date` field is used to either find homeworks by due date (`due_date`) or issue date (`issue_date`).
 
+Parameter | Required | Description
+--------- | -------- | -----------
+from | false | From date
+to | false | To Date
+display_date | false | How to sort the homeworks (`due_date` or `issue_date`)
 ## Get Timetable
 ```typescript
 const data = await studentClient.getLessons({
@@ -167,9 +186,13 @@ console.log(data)
 curl "https://www.classcharts.com/apiv2student/timetable/2339528?date=2022-03-20"  \
   -H 'Authorization: Basic 5vf2v7n5uk9jftrxaarrik39vk6yjm48'
 ```
-
+`GET https://www.classcharts.com/apiv2student/timetable/[userId]` 
+ 
 This endpoint gets the logged in users timetable for a specific day. The required `date` field specifies which day to get the timetable for.
 
+Parameter | Required | Description
+--------- | -------- | -----------
+date | true | Date to get the timetable for
 ## Get Badges
 ```typescript
 const data = await studentClient.getBadges()
@@ -179,7 +202,8 @@ console.log(data)
 curl "https://www.classcharts.com/apiv2student/eventbadges/2339528"  \
   -H 'Authorization: Basic 5vf2v7n5uk9jftrxaarrik39vk6yjm48'
 ```
-
+`GET https://www.classcharts.com/apiv2student/eventbadges/[userId]` 
+ 
 This endpoint returns any badges the logged in user has, along with the behaviour point that triggered it.
 
 ## Get Announcements
@@ -191,6 +215,8 @@ console.log(data)
 curl "https://www.classcharts.com/apiv2student/announcements/2339528"  \
   -H 'Authorization: Basic 5vf2v7n5uk9jftrxaarrik39vk6yjm48'
 ```
+`GET https://www.classcharts.com/apiv2student/announcements/[userId]` 
+ 
 This endpoint returns the announcements for the logged in user sent by the school.
 
 ## Get Detentions
@@ -202,11 +228,13 @@ console.log(data)
 curl "https://www.classcharts.com/apiv2student/detentions/2339528"  \
   -H 'Authorization: Basic 5vf2v7n5uk9jftrxaarrik39vk6yjm48'
 ```
-
+`GET https://www.classcharts.com/apiv2student/detentions/[userId]` 
+ 
 This endpoint returns the detentions the logged in user has.
 
 # Parent API
-The base URL for the parent API is `https://www.classcharts.com/apiv2student`. The parent API is identical to the [student API](#student-api), except that the data returned is based on the student ID which is passed via each request and the [get pupils](#get-pupils) endpoint.
+The base URL for the parent API is `https://www.classcharts.com/apiv2student`.  
+The parent API is identical to the [student API](#student-api), except that the data returned is based on the student ID which is passed via each request and the [get pupils](#get-pupils) endpoint.
 
 ## Get Pupils
 ```typescript
@@ -217,4 +245,6 @@ console.log(data)
 curl "https://www.classcharts.com/apiv2parent/pupils"  \
   -H 'Authorization: Basic eadyjtgk7fnnvvqxuadmmdr5aibntaaf'
 ```
+`GET https://www.classcharts.com/apiv2parent/pupils`  
+
 This endpoint returns an array of the pupils the logged in parent has access to, the response is very similar to the [student info](#student-info) endpoint, aside from returning a couple more fields.
