@@ -1,13 +1,12 @@
 ---
-title: API Reference
+title: Classcharts API Reference
 
 language_tabs: # must be one of https://git.io/vQNgJ
   - shell
-  - javascript
+  - typescript
 
 toc_footers:
-  - <a href='#'>Sign Up for a Developer Key</a>
-  - <a href='https://github.com/slatedocs/slate'>Documentation Powered by Slate</a>
+  - <a href='https://github.com/Classcharts-API/api-docs'>View Repo on Github</a>
 
 includes:
   - errors
@@ -18,226 +17,204 @@ code_clipboard: true
 
 meta:
   - name: description
-    content: Documentation for the Kittn API
+    content: Unofficial Classcharts API documentation
 ---
 
 # Introduction
 
-Welcome to the Kittn API! You can use our API to access Kittn API endpoints, which can get information on various cats, kittens, and breeds in our database.
+Welcome to the *unofficial* Classcharts API documentation. These docs aim to provide an in depth guide to using the API manually, or with our JS client libary. If you have any issues with these docs, please create a new [issue](https://github.com/Classcharts-API/api-docs/issues) by visiting our Github page.
 
-We have language bindings in Shell, Ruby, Python, and JavaScript! You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.
+# Basics
+## Authentication
+### Student Endpoint
 
-This example API documentation page was created with [Slate](https://github.com/slatedocs/slate). Feel free to edit it and use it as a base for your own API's documentation.
+```typescript
+import { ClasschartsStudentClient } from 'classcharts-api'
+const studentClient = new ClasschartsStudentClient('12astrut','12/20/2000')
 
-# Authentication
-
-> To authorize, use this code:
-
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
+await studentClient.login()
 ```
+```shell
+curl -X POST "https://www.classcharts.com/student/login" \
+   -H 'Content-Type: application/x-www-form-urlencoded' \
+   -d '_method=POST&code=12GFKDQY&dob=20/1/2000' \
+   -sD - --output /dev/null
 
-```python
-import kittn
+# In the response your auth token will be in a JSON object called
+# student_session_credentials returned from a set-cookie header:
 
-api = kittn.authorize('meowmeowmeow')
+# set-cookie: student_session_credentials={"remember_me":false,"session_id":"a77dshds3jsd8sdfh2k3};
+```
+To authenticate with the student API, you need to provide your classcharts code and date of birth. Classcharts returns your auth token in a cookie, this means you need to look for a header called `set-cookie` setting a header called `student_session_credentials`. This header contains your `session_id`, which is also used as an auth token.
+### Parent API
+```typescript
+import { ClasschartsParentClient } from 'classcharts-api'
+const parentClient = new ClasschartsParentClient('bob@example.com','Passw0rd')
+
+await parentClient.login()
+```
+```shell
+curl -X POST "https://www.classcharts.com/parent/login" \
+   -H 'Content-Type: application/x-www-form-urlencoded' \
+   -d '_method=POST&email=bob@example.com&password=Passw0rd&logintype=existing' \
+   -sD - --output /dev/null
+
+# In the response your auth token will be in a JSON object called
+# student_session_credentials returned from a set-cookie header:
+
+# set-cookie: student_session_credentials={"remember_me":false,"session_id":"a77dshds3jsd8sdfh2k3};
+```
+To authenticate with the parent API you need to provide your email address and password. The auth token is obtained the same way as the above student API.
+## Requesting Data
+With each request you must specify your `authorization` token, and optionally your student ID in the URL. However, it is **required** to specify the student ID when using the parent API, as Classcharts needs to know which student you would like to get data for.
+
+# Student API
+The base URL for the student API is `https://www.classcharts.com/apiv2student`
+## Student Info
+```typescript
+const data = await studentClient.getStudentInfo()
+console.log(data)
 ```
 
 ```shell
-# With shell, you can just pass the correct header with each request
-curl "api_endpoint_here" \
-  -H "Authorization: meowmeowmeow"
+curl "https://www.classcharts.com/apiv2student/ping"  \
+  -H 'Authorization: Basic 5vf2v7n5uk9jftrxaarrik39vk6yjm48'
 ```
 
-```javascript
-const kittn = require('kittn');
+Gets basic information about the logged in student and what access they have.
 
-let api = kittn.authorize('meowmeowmeow');
+## Get Activity
+```typescript
+const data = await studentClient.getActivity()
+console.log(data)
+
+const specificData = await studentClient.getActivity({
+  from: "2000-12-20",
+  to: "2022-03-20",
+  last_id: 4563278
+})
+console.log(specificData)
+```
+```shell
+curl "https://www.classcharts.com/apiv2student/activity"  \
+  -H 'Authorization: Basic 5vf2v7n5uk9jftrxaarrik39vk6yjm48'
+
+curl "https://www.classcharts.com/apiv2student/activity?from=2000-12-20&to=2022-03-20&last_id=4563278"  \
+  -H 'Authorization: Basic 5vf2v7n5uk9jftrxaarrik39vk6yjm48'
 ```
 
-> Make sure to replace `meowmeowmeow` with your API key.
-
-Kittn uses API keys to allow access to the API. You can register a new Kittn API key at our [developer portal](http://example.com/developers).
-
-Kittn expects for the API key to be included in all API requests to the server in a header that looks like the following:
-
-`Authorization: meowmeowmeow`
+This endpoint gets the latest behaviour points for the logged in user. Optional `from` and `to` fields can be used to scope the request to specific dates. The `last_id` is used by Classcharts for paginiation, and can be used to get results after a specific behaviour point.
 
 <aside class="notice">
-You must replace <code>meowmeowmeow</code> with your personal API key.
+    The <code>from</code> field does not work as you would expect, since this endpoint is meant for use only on the homepage of Classcharts, Classcharts returns a set amount of points from the `to` field. To get more points you will need to make use of the <code>last_id</code> field
 </aside>
 
-# Kittens
+## Get Behaviour
 
-## Get All Kittens
+```typescript
+const data = await studentClient.getBehaviour()
+console.log(data)
 
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.get
+const specificData = await studentClient.getBehaviour({
+  from: '2000-12-20',
+  to: '2022-03-20'
+})
+console.log(specificData)
 ```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-api.kittens.get()
-```
-
 ```shell
-curl "http://example.com/api/kittens" \
-  -H "Authorization: meowmeowmeow"
+curl "https://www.classcharts.com/apiv2student/behaviour/2339528"  \
+  -H 'Authorization: Basic 5vf2v7n5uk9jftrxaarrik39vk6yjm48'
+
+curl "https://www.classcharts.com/apiv2student/behaviour/2339528?from=2000-12-20&to=2022-03-20"  \
+  -H 'Authorization: Basic 5vf2v7n5uk9jftrxaarrik39vk6yjm48'
 ```
 
-```javascript
-const kittn = require('kittn');
+This endpoint returns basic statistics on how many of each type of behaviour point the logged in student has recieved. Optional `from` and `to` fields can be used to get statistics between two dates.
 
-let api = kittn.authorize('meowmeowmeow');
-let kittens = api.kittens.get();
+## Get Homeworks
+
+```typescript
+const data = await studentClient.listHomeworks()
+console.log(data)
+
+const specificData = await studentClient.listHomeworks({
+  displayDate: 'due_date', // Can be due_date or issue_date, defaults to due_date
+  fromDate: '2000-12-20',
+  toDate: '2022-03-20'
+})
+console.log(specificData)
 ```
-
-> The above command returns JSON structured like this:
-
-```json
-[
-  {
-    "id": 1,
-    "name": "Fluffums",
-    "breed": "calico",
-    "fluffiness": 6,
-    "cuteness": 7
-  },
-  {
-    "id": 2,
-    "name": "Max",
-    "breed": "unknown",
-    "fluffiness": 5,
-    "cuteness": 10
-  }
-]
-```
-
-This endpoint retrieves all kittens.
-
-### HTTP Request
-
-`GET http://example.com/api/kittens`
-
-### Query Parameters
-
-Parameter | Default | Description
---------- | ------- | -----------
-include_cats | false | If set to true, the result will also include cats.
-available | true | If set to false, the result will include kittens that have already been adopted.
-
-<aside class="success">
-Remember — a happy kitten is an authenticated kitten!
-</aside>
-
-## Get a Specific Kitten
-
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.get(2)
-```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-api.kittens.get(2)
-```
-
 ```shell
-curl "http://example.com/api/kittens/2" \
-  -H "Authorization: meowmeowmeow"
+curl "https://www.classcharts.com/apiv2student/homeworks/2339528"  \
+  -H 'Authorization: Basic 5vf2v7n5uk9jftrxaarrik39vk6yjm48'
+
+# display_date can be due_date or issue_date
+curl "https://www.classcharts.com/apiv2student/homeworks/2339528?display_date=due_date&from=2000-12-20&to=2022-03-20"  \
+  -H 'Authorization: Basic 5vf2v7n5uk9jftrxaarrik39vk6yjm48'
 ```
 
-```javascript
-const kittn = require('kittn');
+This endpoint returns homeworks the logged in user has. Optional `from` and `to` fields can be used to scope the request. The `display_date` field is used to either find homeworks by due date (`due_date`) or issue date (`issue_date`).
 
-let api = kittn.authorize('meowmeowmeow');
-let max = api.kittens.get(2);
+## Get Timetable
+```typescript
+const data = await studentClient.getLessons({
+  date: '2022-03-20' // Date to get the timetable for must be provided
+})
+console.log(data)
 ```
-
-> The above command returns JSON structured like this:
-
-```json
-{
-  "id": 2,
-  "name": "Max",
-  "breed": "unknown",
-  "fluffiness": 5,
-  "cuteness": 10
-}
-```
-
-This endpoint retrieves a specific kitten.
-
-<aside class="warning">Inside HTML code blocks like this one, you can't use Markdown, so use <code>&lt;code&gt;</code> blocks to denote code.</aside>
-
-### HTTP Request
-
-`GET http://example.com/kittens/<ID>`
-
-### URL Parameters
-
-Parameter | Description
---------- | -----------
-ID | The ID of the kitten to retrieve
-
-## Delete a Specific Kitten
-
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.delete(2)
-```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-api.kittens.delete(2)
-```
-
 ```shell
-curl "http://example.com/api/kittens/2" \
-  -X DELETE \
-  -H "Authorization: meowmeowmeow"
+# Date to get the timetable for must be provided
+curl "https://www.classcharts.com/apiv2student/timetable/2339528?date=2022-03-20"  \
+  -H 'Authorization: Basic 5vf2v7n5uk9jftrxaarrik39vk6yjm48'
 ```
 
-```javascript
-const kittn = require('kittn');
+This endpoint gets the logged in users timetable for a specific day. The required `date` field specifies which day to get the timetable for.
 
-let api = kittn.authorize('meowmeowmeow');
-let max = api.kittens.delete(2);
+## Get Badges
+```typescript
+const data = await studentClient.getBadges()
+console.log(data)
+```
+```shell
+curl "https://www.classcharts.com/apiv2student/eventbadges/2339528"  \
+  -H 'Authorization: Basic 5vf2v7n5uk9jftrxaarrik39vk6yjm48'
 ```
 
-> The above command returns JSON structured like this:
+This endpoint returns any badges the logged in user has, along with the behaviour point that triggered it.
 
-```json
-{
-  "id": 2,
-  "deleted" : ":("
-}
+## Get Announcements
+```typescript
+const data = await studentClient.listAnnouncements()
+console.log(data)
+```
+```shell
+curl "https://www.classcharts.com/apiv2student/announcements/2339528"  \
+  -H 'Authorization: Basic 5vf2v7n5uk9jftrxaarrik39vk6yjm48'
+```
+This endpoint returns the announcements for the logged in user sent by the school.
+
+## Get Detentions
+```typescript
+const data = await studentClient.getDetentions()
+console.log(data)
+```
+```shell
+curl "https://www.classcharts.com/apiv2student/detentions/2339528"  \
+  -H 'Authorization: Basic 5vf2v7n5uk9jftrxaarrik39vk6yjm48'
 ```
 
-This endpoint deletes a specific kitten.
+This endpoint returns the detentions the logged in user has.
 
-### HTTP Request
+# Parent API
+The base URL for the parent API is `https://www.classcharts.com/apiv2student`. The parent API is identical to the [student API](#student-api), except that the data returned is based on the student ID which is passed via each request and the [get pupils](#get-pupils) endpoint.
 
-`DELETE http://example.com/kittens/<ID>`
-
-### URL Parameters
-
-Parameter | Description
---------- | -----------
-ID | The ID of the kitten to delete
-
+## Get Pupils
+```typescript
+const data = await parentClient.getPupils()
+console.log(data)
+```
+```shell
+curl "https://www.classcharts.com/apiv2parent/pupils"  \
+  -H 'Authorization: Basic eadyjtgk7fnnvvqxuadmmdr5aibntaaf'
+```
+This endpoint returns an array of the pupils the logged in parent has access to, the response is very similar to the [student info](#student-info) endpoint, aside from returning a couple more fields.
