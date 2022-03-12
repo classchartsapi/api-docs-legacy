@@ -7,9 +7,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
         <meta
             name="description"
-            content="Documentation for the Kittn API"
+            content="Unofficial Classcharts API documentation"
         >
-    <title>API Reference</title>
+    <title>Classcharts API Reference</title>
 
     <style media="screen">
       .highlight table td { padding: 5px; }
@@ -295,7 +295,7 @@
     </script>
   </head>
 
-  <body class="index" data-languages="[&quot;shell&quot;,&quot;javascript&quot;]">
+  <body class="index" data-languages="[&quot;shell&quot;,&quot;typescript&quot;]">
     <a href="#" id="nav-button">
       <span>
         NAV
@@ -303,10 +303,10 @@
       </span>
     </a>
     <div class="toc-wrapper">
-      <img src="images/logo-1e815a84.png" class="logo" alt="" />
+      <img src="images/logo.png" class="logo" alt="" />
         <div class="lang-selector">
               <a href="#" data-language-name="shell">shell</a>
-              <a href="#" data-language-name="javascript">javascript</a>
+              <a href="#" data-language-name="typescript">typescript</a>
         </div>
         <div class="search">
           <input type="text" class="search" id="input-search" placeholder="Search">
@@ -317,277 +317,212 @@
             <a href="#introduction" class="toc-h1 toc-link" data-title="Introduction">Introduction</a>
           </li>
           <li>
-            <a href="#authentication" class="toc-h1 toc-link" data-title="Authentication">Authentication</a>
-          </li>
-          <li>
-            <a href="#kittens" class="toc-h1 toc-link" data-title="Kittens">Kittens</a>
+            <a href="#basics" class="toc-h1 toc-link" data-title="Basics">Basics</a>
               <ul class="toc-list-h2">
                   <li>
-                    <a href="#get-all-kittens" class="toc-h2 toc-link" data-title="Get All Kittens">Get All Kittens</a>
+                    <a href="#authentication" class="toc-h2 toc-link" data-title="Authentication">Authentication</a>
                   </li>
                   <li>
-                    <a href="#get-a-specific-kitten" class="toc-h2 toc-link" data-title="Get a Specific Kitten">Get a Specific Kitten</a>
+                    <a href="#requesting-data" class="toc-h2 toc-link" data-title="Requesting Data">Requesting Data</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
+            <a href="#student-api" class="toc-h1 toc-link" data-title="Student API">Student API</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#student-info" class="toc-h2 toc-link" data-title="Student Info">Student Info</a>
                   </li>
                   <li>
-                    <a href="#delete-a-specific-kitten" class="toc-h2 toc-link" data-title="Delete a Specific Kitten">Delete a Specific Kitten</a>
+                    <a href="#get-activity" class="toc-h2 toc-link" data-title="Get Activity">Get Activity</a>
+                  </li>
+                  <li>
+                    <a href="#get-behaviour" class="toc-h2 toc-link" data-title="Get Behaviour">Get Behaviour</a>
+                  </li>
+                  <li>
+                    <a href="#get-homeworks" class="toc-h2 toc-link" data-title="Get Homeworks">Get Homeworks</a>
+                  </li>
+                  <li>
+                    <a href="#get-timetable" class="toc-h2 toc-link" data-title="Get Timetable">Get Timetable</a>
+                  </li>
+                  <li>
+                    <a href="#get-badges" class="toc-h2 toc-link" data-title="Get Badges">Get Badges</a>
+                  </li>
+                  <li>
+                    <a href="#get-announcements" class="toc-h2 toc-link" data-title="Get Announcements">Get Announcements</a>
+                  </li>
+                  <li>
+                    <a href="#get-detentions" class="toc-h2 toc-link" data-title="Get Detentions">Get Detentions</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
+            <a href="#parent-api-2" class="toc-h1 toc-link" data-title="Parent API">Parent API</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#get-pupils" class="toc-h2 toc-link" data-title="Get Pupils">Get Pupils</a>
                   </li>
               </ul>
           </li>
           <li>
             <a href="#errors" class="toc-h1 toc-link" data-title="Errors">Errors</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#example" class="toc-h2 toc-link" data-title="Example">Example</a>
+                  </li>
+              </ul>
           </li>
       </ul>
         <ul class="toc-footer">
-            <li><a href='#'>Sign Up for a Developer Key</a></li>
-            <li><a href='https://github.com/slatedocs/slate'>Documentation Powered by Slate</a></li>
+            <li><a href='https://github.com/Classcharts-API/api-docs'>View Repo on Github</a></li>
         </ul>
     </div>
     <div class="page-wrapper">
       <div class="dark-box"></div>
       <div class="content">
         <h1 id='introduction'>Introduction</h1>
-<p>Welcome to the Kittn API! You can use our API to access Kittn API endpoints, which can get information on various cats, kittens, and breeds in our database.</p>
+<p>Welcome to the <em>unofficial</em> Classcharts API documentation. These docs aim to provide an in depth guide to using the API manually, or with our JS client libary. If you have any issues with these docs, please create a new <a href="https://github.com/Classcharts-API/api-docs/issues">issue</a> by visiting our Github page.</p>
+<h1 id='basics'>Basics</h1><h2 id='authentication'>Authentication</h2><h3 id='student-endpoint'>Student Endpoint</h3><div class="highlight"><pre class="highlight typescript tab-typescript"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">ClasschartsStudentClient</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">classcharts-api</span><span class="dl">'</span>
+<span class="kd">const</span> <span class="nx">studentClient</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ClasschartsStudentClient</span><span class="p">(</span><span class="dl">'</span><span class="s1">12astrut</span><span class="dl">'</span><span class="p">,</span><span class="dl">'</span><span class="s1">12/20/2000</span><span class="dl">'</span><span class="p">)</span>
 
-<p>We have language bindings in Shell, Ruby, Python, and JavaScript! You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.</p>
+<span class="k">await</span> <span class="nx">studentClient</span><span class="p">.</span><span class="nx">login</span><span class="p">()</span>
+</code></pre></div><div class="highlight"><pre class="highlight shell tab-shell"><code>curl <span class="nt">-X</span> POST <span class="s2">"https://www.classcharts.com/student/login"</span> <span class="se">\</span>
+   <span class="nt">-H</span> <span class="s1">'Content-Type: application/x-www-form-urlencoded'</span> <span class="se">\</span>
+   <span class="nt">-d</span> <span class="s1">'_method=POST&amp;code=12GFKDQY&amp;dob=20/1/2000'</span> <span class="se">\</span>
+   <span class="nt">-sD</span> - <span class="nt">--output</span> /dev/null
 
-<p>This example API documentation page was created with <a href="https://github.com/slatedocs/slate">Slate</a>. Feel free to edit it and use it as a base for your own API&#39;s documentation.</p>
-<h1 id='authentication'>Authentication</h1>
-<blockquote>
-<p>To authorize, use this code:</p>
-</blockquote>
-<div class="highlight"><pre class="highlight ruby tab-ruby"><code><span class="nb">require</span> <span class="s1">'kittn'</span>
+<span class="c"># In the response your auth token will be in a JSON object called</span>
+<span class="c"># student_session_credentials returned from a set-cookie header:</span>
 
-<span class="n">api</span> <span class="o">=</span> <span class="no">Kittn</span><span class="o">::</span><span class="no">APIClient</span><span class="p">.</span><span class="nf">authorize!</span><span class="p">(</span><span class="s1">'meowmeowmeow'</span><span class="p">)</span>
-</code></pre></div><div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">kittn</span>
-
-<span class="n">api</span> <span class="o">=</span> <span class="n">kittn</span><span class="p">.</span><span class="n">authorize</span><span class="p">(</span><span class="s">'meowmeowmeow'</span><span class="p">)</span>
-</code></pre></div><div class="highlight"><pre class="highlight shell tab-shell"><code><span class="c"># With shell, you can just pass the correct header with each request</span>
-curl <span class="s2">"api_endpoint_here"</span> <span class="se">\</span>
-  <span class="nt">-H</span> <span class="s2">"Authorization: meowmeowmeow"</span>
-</code></pre></div><div class="highlight"><pre class="highlight javascript tab-javascript"><code><span class="kd">const</span> <span class="nx">kittn</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">kittn</span><span class="dl">'</span><span class="p">);</span>
-
-<span class="kd">let</span> <span class="nx">api</span> <span class="o">=</span> <span class="nx">kittn</span><span class="p">.</span><span class="nx">authorize</span><span class="p">(</span><span class="dl">'</span><span class="s1">meowmeowmeow</span><span class="dl">'</span><span class="p">);</span>
+<span class="c"># set-cookie: student_session_credentials={"remember_me":false,"session_id":"a77dshds3jsd8sdfh2k3};</span>
 </code></pre></div>
-<blockquote>
-<p>Make sure to replace <code>meowmeowmeow</code> with your API key.</p>
-</blockquote>
+<p>To authenticate with the student API, you need to provide your classcharts code and date of birth. Classcharts returns your auth token in a cookie, this means you need to look for a header called <code>set-cookie</code> setting a header called <code>student_session_credentials</code>. This header contains your <code>session_id</code>, which is also used as an auth token.</p>
+<h3 id='parent-api'>Parent API</h3><div class="highlight"><pre class="highlight typescript tab-typescript"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">ClasschartsParentClient</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">classcharts-api</span><span class="dl">'</span>
+<span class="kd">const</span> <span class="nx">parentClient</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ClasschartsParentClient</span><span class="p">(</span><span class="dl">'</span><span class="s1">bob@example.com</span><span class="dl">'</span><span class="p">,</span><span class="dl">'</span><span class="s1">Passw0rd</span><span class="dl">'</span><span class="p">)</span>
 
-<p>Kittn uses API keys to allow access to the API. You can register a new Kittn API key at our <a href="http://example.com/developers">developer portal</a>.</p>
+<span class="k">await</span> <span class="nx">parentClient</span><span class="p">.</span><span class="nx">login</span><span class="p">()</span>
+</code></pre></div><div class="highlight"><pre class="highlight shell tab-shell"><code>curl <span class="nt">-X</span> POST <span class="s2">"https://www.classcharts.com/parent/login"</span> <span class="se">\</span>
+   <span class="nt">-H</span> <span class="s1">'Content-Type: application/x-www-form-urlencoded'</span> <span class="se">\</span>
+   <span class="nt">-d</span> <span class="s1">'_method=POST&amp;email=bob@example.com&amp;password=Passw0rd&amp;logintype=existing'</span> <span class="se">\</span>
+   <span class="nt">-sD</span> - <span class="nt">--output</span> /dev/null
 
-<p>Kittn expects for the API key to be included in all API requests to the server in a header that looks like the following:</p>
+<span class="c"># In the response your auth token will be in a JSON object called</span>
+<span class="c"># student_session_credentials returned from a set-cookie header:</span>
 
-<p><code>Authorization: meowmeowmeow</code></p>
+<span class="c"># set-cookie: student_session_credentials={"remember_me":false,"session_id":"a77dshds3jsd8sdfh2k3};</span>
+</code></pre></div>
+<p>To authenticate with the parent API you need to provide your email address and password. The auth token is obtained the same way as the above student API.</p>
+<h2 id='requesting-data'>Requesting Data</h2>
+<p>With each request you must specify your <code>authorization</code> token, and optionally your student ID in the URL. However, it is <strong>required</strong> to specify the student ID when using the parent API, as Classcharts needs to know which student you would like to get data for.</p>
+<h1 id='student-api'>Student API</h1>
+<p>The base URL for the student API is <code>https://www.classcharts.com/apiv2student</code></p>
+<h2 id='student-info'>Student Info</h2><div class="highlight"><pre class="highlight typescript tab-typescript"><code><span class="kd">const</span> <span class="nx">data</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">studentClient</span><span class="p">.</span><span class="nx">getStudentInfo</span><span class="p">()</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span>
+</code></pre></div><div class="highlight"><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://www.classcharts.com/apiv2student/ping"</span>  <span class="se">\</span>
+  <span class="nt">-H</span> <span class="s1">'Authorization: Basic 5vf2v7n5uk9jftrxaarrik39vk6yjm48'</span>
+</code></pre></div>
+<p>Gets basic information about the logged in student and what access they have.</p>
+<h2 id='get-activity'>Get Activity</h2><div class="highlight"><pre class="highlight typescript tab-typescript"><code><span class="kd">const</span> <span class="nx">data</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">studentClient</span><span class="p">.</span><span class="nx">getActivity</span><span class="p">()</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span>
+
+<span class="kd">const</span> <span class="nx">specificData</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">studentClient</span><span class="p">.</span><span class="nx">getActivity</span><span class="p">({</span>
+  <span class="na">from</span><span class="p">:</span> <span class="dl">"</span><span class="s2">2000-12-20</span><span class="dl">"</span><span class="p">,</span>
+  <span class="na">to</span><span class="p">:</span> <span class="dl">"</span><span class="s2">2022-03-20</span><span class="dl">"</span><span class="p">,</span>
+  <span class="na">last_id</span><span class="p">:</span> <span class="mi">4563278</span>
+<span class="p">})</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">specificData</span><span class="p">)</span>
+</code></pre></div><div class="highlight"><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://www.classcharts.com/apiv2student/activity"</span>  <span class="se">\</span>
+  <span class="nt">-H</span> <span class="s1">'Authorization: Basic 5vf2v7n5uk9jftrxaarrik39vk6yjm48'</span>
+
+curl <span class="s2">"https://www.classcharts.com/apiv2student/activity?from=2000-12-20&amp;to=2022-03-20&amp;last_id=4563278"</span>  <span class="se">\</span>
+  <span class="nt">-H</span> <span class="s1">'Authorization: Basic 5vf2v7n5uk9jftrxaarrik39vk6yjm48'</span>
+</code></pre></div>
+<p>This endpoint gets the latest behaviour points for the logged in user. Optional <code>from</code> and <code>to</code> fields can be used to scope the request to specific dates. The <code>last_id</code> is used by Classcharts for paginiation, and can be used to get results after a specific behaviour point.</p>
 
 <aside class="notice">
-You must replace <code>meowmeowmeow</code> with your personal API key.
+    The <code>from</code> field does not work as you would expect, since this endpoint is meant for use only on the homepage of Classcharts, Classcharts returns a set amount of points from the `to` field. To get more points you will need to make use of the <code>last_id</code> field
 </aside>
-<h1 id='kittens'>Kittens</h1><h2 id='get-all-kittens'>Get All Kittens</h2><div class="highlight"><pre class="highlight ruby tab-ruby"><code><span class="nb">require</span> <span class="s1">'kittn'</span>
+<h2 id='get-behaviour'>Get Behaviour</h2><div class="highlight"><pre class="highlight typescript tab-typescript"><code><span class="kd">const</span> <span class="nx">data</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">studentClient</span><span class="p">.</span><span class="nx">getBehaviour</span><span class="p">()</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span>
 
-<span class="n">api</span> <span class="o">=</span> <span class="no">Kittn</span><span class="o">::</span><span class="no">APIClient</span><span class="p">.</span><span class="nf">authorize!</span><span class="p">(</span><span class="s1">'meowmeowmeow'</span><span class="p">)</span>
-<span class="n">api</span><span class="p">.</span><span class="nf">kittens</span><span class="p">.</span><span class="nf">get</span>
-</code></pre></div><div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">kittn</span>
+<span class="kd">const</span> <span class="nx">specificData</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">studentClient</span><span class="p">.</span><span class="nx">getBehaviour</span><span class="p">({</span>
+  <span class="na">from</span><span class="p">:</span> <span class="dl">'</span><span class="s1">2000-12-20</span><span class="dl">'</span><span class="p">,</span>
+  <span class="na">to</span><span class="p">:</span> <span class="dl">'</span><span class="s1">2022-03-20</span><span class="dl">'</span>
+<span class="p">})</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">specificData</span><span class="p">)</span>
+</code></pre></div><div class="highlight"><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://www.classcharts.com/apiv2student/behaviour/2339528"</span>  <span class="se">\</span>
+  <span class="nt">-H</span> <span class="s1">'Authorization: Basic 5vf2v7n5uk9jftrxaarrik39vk6yjm48'</span>
 
-<span class="n">api</span> <span class="o">=</span> <span class="n">kittn</span><span class="p">.</span><span class="n">authorize</span><span class="p">(</span><span class="s">'meowmeowmeow'</span><span class="p">)</span>
-<span class="n">api</span><span class="p">.</span><span class="n">kittens</span><span class="p">.</span><span class="n">get</span><span class="p">()</span>
-</code></pre></div><div class="highlight"><pre class="highlight shell tab-shell"><code>curl <span class="s2">"http://example.com/api/kittens"</span> <span class="se">\</span>
-  <span class="nt">-H</span> <span class="s2">"Authorization: meowmeowmeow"</span>
-</code></pre></div><div class="highlight"><pre class="highlight javascript tab-javascript"><code><span class="kd">const</span> <span class="nx">kittn</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">kittn</span><span class="dl">'</span><span class="p">);</span>
-
-<span class="kd">let</span> <span class="nx">api</span> <span class="o">=</span> <span class="nx">kittn</span><span class="p">.</span><span class="nx">authorize</span><span class="p">(</span><span class="dl">'</span><span class="s1">meowmeowmeow</span><span class="dl">'</span><span class="p">);</span>
-<span class="kd">let</span> <span class="nx">kittens</span> <span class="o">=</span> <span class="nx">api</span><span class="p">.</span><span class="nx">kittens</span><span class="p">.</span><span class="kd">get</span><span class="p">();</span>
+curl <span class="s2">"https://www.classcharts.com/apiv2student/behaviour/2339528?from=2000-12-20&amp;to=2022-03-20"</span>  <span class="se">\</span>
+  <span class="nt">-H</span> <span class="s1">'Authorization: Basic 5vf2v7n5uk9jftrxaarrik39vk6yjm48'</span>
 </code></pre></div>
-<blockquote>
-<p>The above command returns JSON structured like this:</p>
-</blockquote>
-<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">[</span><span class="w">
-  </span><span class="p">{</span><span class="w">
-    </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Fluffums"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"breed"</span><span class="p">:</span><span class="w"> </span><span class="s2">"calico"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"fluffiness"</span><span class="p">:</span><span class="w"> </span><span class="mi">6</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"cuteness"</span><span class="p">:</span><span class="w"> </span><span class="mi">7</span><span class="w">
-  </span><span class="p">},</span><span class="w">
-  </span><span class="p">{</span><span class="w">
-    </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Max"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"breed"</span><span class="p">:</span><span class="w"> </span><span class="s2">"unknown"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"fluffiness"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"cuteness"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="w">
-  </span><span class="p">}</span><span class="w">
-</span><span class="p">]</span><span class="w">
-</span></code></pre></div>
-<p>This endpoint retrieves all kittens.</p>
-<h3 id='http-request'>HTTP Request</h3>
-<p><code>GET http://example.com/api/kittens</code></p>
-<h3 id='query-parameters'>Query Parameters</h3>
-<table><thead>
-<tr>
-<th>Parameter</th>
-<th>Default</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>include_cats</td>
-<td>false</td>
-<td>If set to true, the result will also include cats.</td>
-</tr>
-<tr>
-<td>available</td>
-<td>true</td>
-<td>If set to false, the result will include kittens that have already been adopted.</td>
-</tr>
-</tbody></table>
+<p>This endpoint returns basic statistics on how many of each type of behaviour point the logged in student has recieved. Optional <code>from</code> and <code>to</code> fields can be used to get statistics between two dates.</p>
+<h2 id='get-homeworks'>Get Homeworks</h2><div class="highlight"><pre class="highlight typescript tab-typescript"><code><span class="kd">const</span> <span class="nx">data</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">studentClient</span><span class="p">.</span><span class="nx">listHomeworks</span><span class="p">()</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span>
 
-<aside class="success">
-Remember — a happy kitten is an authenticated kitten!
-</aside>
-<h2 id='get-a-specific-kitten'>Get a Specific Kitten</h2><div class="highlight"><pre class="highlight ruby tab-ruby"><code><span class="nb">require</span> <span class="s1">'kittn'</span>
+<span class="kd">const</span> <span class="nx">specificData</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">studentClient</span><span class="p">.</span><span class="nx">listHomeworks</span><span class="p">({</span>
+  <span class="na">displayDate</span><span class="p">:</span> <span class="dl">'</span><span class="s1">due_date</span><span class="dl">'</span><span class="p">,</span> <span class="c1">// Can be due_date or issue_date, defaults to due_date</span>
+  <span class="na">fromDate</span><span class="p">:</span> <span class="dl">'</span><span class="s1">2000-12-20</span><span class="dl">'</span><span class="p">,</span>
+  <span class="na">toDate</span><span class="p">:</span> <span class="dl">'</span><span class="s1">2022-03-20</span><span class="dl">'</span>
+<span class="p">})</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">specificData</span><span class="p">)</span>
+</code></pre></div><div class="highlight"><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://www.classcharts.com/apiv2student/homeworks/2339528"</span>  <span class="se">\</span>
+  <span class="nt">-H</span> <span class="s1">'Authorization: Basic 5vf2v7n5uk9jftrxaarrik39vk6yjm48'</span>
 
-<span class="n">api</span> <span class="o">=</span> <span class="no">Kittn</span><span class="o">::</span><span class="no">APIClient</span><span class="p">.</span><span class="nf">authorize!</span><span class="p">(</span><span class="s1">'meowmeowmeow'</span><span class="p">)</span>
-<span class="n">api</span><span class="p">.</span><span class="nf">kittens</span><span class="p">.</span><span class="nf">get</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-</code></pre></div><div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">kittn</span>
-
-<span class="n">api</span> <span class="o">=</span> <span class="n">kittn</span><span class="p">.</span><span class="n">authorize</span><span class="p">(</span><span class="s">'meowmeowmeow'</span><span class="p">)</span>
-<span class="n">api</span><span class="p">.</span><span class="n">kittens</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-</code></pre></div><div class="highlight"><pre class="highlight shell tab-shell"><code>curl <span class="s2">"http://example.com/api/kittens/2"</span> <span class="se">\</span>
-  <span class="nt">-H</span> <span class="s2">"Authorization: meowmeowmeow"</span>
-</code></pre></div><div class="highlight"><pre class="highlight javascript tab-javascript"><code><span class="kd">const</span> <span class="nx">kittn</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">kittn</span><span class="dl">'</span><span class="p">);</span>
-
-<span class="kd">let</span> <span class="nx">api</span> <span class="o">=</span> <span class="nx">kittn</span><span class="p">.</span><span class="nx">authorize</span><span class="p">(</span><span class="dl">'</span><span class="s1">meowmeowmeow</span><span class="dl">'</span><span class="p">);</span>
-<span class="kd">let</span> <span class="nx">max</span> <span class="o">=</span> <span class="nx">api</span><span class="p">.</span><span class="nx">kittens</span><span class="p">.</span><span class="kd">get</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
+<span class="c"># display_date can be due_date or issue_date</span>
+curl <span class="s2">"https://www.classcharts.com/apiv2student/homeworks/2339528?display_date=due_date&amp;from=2000-12-20&amp;to=2022-03-20"</span>  <span class="se">\</span>
+  <span class="nt">-H</span> <span class="s1">'Authorization: Basic 5vf2v7n5uk9jftrxaarrik39vk6yjm48'</span>
 </code></pre></div>
-<blockquote>
-<p>The above command returns JSON structured like this:</p>
-</blockquote>
-<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Max"</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"breed"</span><span class="p">:</span><span class="w"> </span><span class="s2">"unknown"</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"fluffiness"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"cuteness"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre></div>
-<p>This endpoint retrieves a specific kitten.</p>
-
-<aside class="warning">Inside HTML code blocks like this one, you can't use Markdown, so use <code>&lt;code&gt;</code> blocks to denote code.</aside>
-<h3 id='http-request-2'>HTTP Request</h3>
-<p><code>GET http://example.com/kittens/&lt;ID&gt;</code></p>
-<h3 id='url-parameters'>URL Parameters</h3>
-<table><thead>
-<tr>
-<th>Parameter</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>ID</td>
-<td>The ID of the kitten to retrieve</td>
-</tr>
-</tbody></table>
-<h2 id='delete-a-specific-kitten'>Delete a Specific Kitten</h2><div class="highlight"><pre class="highlight ruby tab-ruby"><code><span class="nb">require</span> <span class="s1">'kittn'</span>
-
-<span class="n">api</span> <span class="o">=</span> <span class="no">Kittn</span><span class="o">::</span><span class="no">APIClient</span><span class="p">.</span><span class="nf">authorize!</span><span class="p">(</span><span class="s1">'meowmeowmeow'</span><span class="p">)</span>
-<span class="n">api</span><span class="p">.</span><span class="nf">kittens</span><span class="p">.</span><span class="nf">delete</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-</code></pre></div><div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">kittn</span>
-
-<span class="n">api</span> <span class="o">=</span> <span class="n">kittn</span><span class="p">.</span><span class="n">authorize</span><span class="p">(</span><span class="s">'meowmeowmeow'</span><span class="p">)</span>
-<span class="n">api</span><span class="p">.</span><span class="n">kittens</span><span class="p">.</span><span class="n">delete</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-</code></pre></div><div class="highlight"><pre class="highlight shell tab-shell"><code>curl <span class="s2">"http://example.com/api/kittens/2"</span> <span class="se">\</span>
-  <span class="nt">-X</span> DELETE <span class="se">\</span>
-  <span class="nt">-H</span> <span class="s2">"Authorization: meowmeowmeow"</span>
-</code></pre></div><div class="highlight"><pre class="highlight javascript tab-javascript"><code><span class="kd">const</span> <span class="nx">kittn</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">kittn</span><span class="dl">'</span><span class="p">);</span>
-
-<span class="kd">let</span> <span class="nx">api</span> <span class="o">=</span> <span class="nx">kittn</span><span class="p">.</span><span class="nx">authorize</span><span class="p">(</span><span class="dl">'</span><span class="s1">meowmeowmeow</span><span class="dl">'</span><span class="p">);</span>
-<span class="kd">let</span> <span class="nx">max</span> <span class="o">=</span> <span class="nx">api</span><span class="p">.</span><span class="nx">kittens</span><span class="p">.</span><span class="k">delete</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
+<p>This endpoint returns homeworks the logged in user has. Optional <code>from</code> and <code>to</code> fields can be used to scope the request. The <code>display_date</code> field is used to either find homeworks by due date (<code>due_date</code>) or issue date (<code>issue_date</code>).</p>
+<h2 id='get-timetable'>Get Timetable</h2><div class="highlight"><pre class="highlight typescript tab-typescript"><code><span class="kd">const</span> <span class="nx">data</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">studentClient</span><span class="p">.</span><span class="nx">getLessons</span><span class="p">({</span>
+  <span class="na">date</span><span class="p">:</span> <span class="dl">'</span><span class="s1">2022-03-20</span><span class="dl">'</span> <span class="c1">// Date to get the timetable for must be provided</span>
+<span class="p">})</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span>
+</code></pre></div><div class="highlight"><pre class="highlight shell tab-shell"><code><span class="c"># Date to get the timetable for must be provided</span>
+curl <span class="s2">"https://www.classcharts.com/apiv2student/timetable/2339528?date=2022-03-20"</span>  <span class="se">\</span>
+  <span class="nt">-H</span> <span class="s1">'Authorization: Basic 5vf2v7n5uk9jftrxaarrik39vk6yjm48'</span>
 </code></pre></div>
-<blockquote>
-<p>The above command returns JSON structured like this:</p>
-</blockquote>
-<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"deleted"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">":("</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre></div>
-<p>This endpoint deletes a specific kitten.</p>
-<h3 id='http-request-3'>HTTP Request</h3>
-<p><code>DELETE http://example.com/kittens/&lt;ID&gt;</code></p>
-<h3 id='url-parameters-2'>URL Parameters</h3>
-<table><thead>
-<tr>
-<th>Parameter</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>ID</td>
-<td>The ID of the kitten to delete</td>
-</tr>
-</tbody></table>
+<p>This endpoint gets the logged in users timetable for a specific day. The required <code>date</code> field specifies which day to get the timetable for.</p>
+<h2 id='get-badges'>Get Badges</h2><div class="highlight"><pre class="highlight typescript tab-typescript"><code><span class="kd">const</span> <span class="nx">data</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">studentClient</span><span class="p">.</span><span class="nx">getBadges</span><span class="p">()</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span>
+</code></pre></div><div class="highlight"><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://www.classcharts.com/apiv2student/eventbadges/2339528"</span>  <span class="se">\</span>
+  <span class="nt">-H</span> <span class="s1">'Authorization: Basic 5vf2v7n5uk9jftrxaarrik39vk6yjm48'</span>
+</code></pre></div>
+<p>This endpoint returns any badges the logged in user has, along with the behaviour point that triggered it.</p>
+<h2 id='get-announcements'>Get Announcements</h2><div class="highlight"><pre class="highlight typescript tab-typescript"><code><span class="kd">const</span> <span class="nx">data</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">studentClient</span><span class="p">.</span><span class="nx">listAnnouncements</span><span class="p">()</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span>
+</code></pre></div><div class="highlight"><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://www.classcharts.com/apiv2student/announcements/2339528"</span>  <span class="se">\</span>
+  <span class="nt">-H</span> <span class="s1">'Authorization: Basic 5vf2v7n5uk9jftrxaarrik39vk6yjm48'</span>
+</code></pre></div>
+<p>This endpoint returns the announcements for the logged in user sent by the school.</p>
+<h2 id='get-detentions'>Get Detentions</h2><div class="highlight"><pre class="highlight typescript tab-typescript"><code><span class="kd">const</span> <span class="nx">data</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">studentClient</span><span class="p">.</span><span class="nx">getDetentions</span><span class="p">()</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span>
+</code></pre></div><div class="highlight"><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://www.classcharts.com/apiv2student/detentions/2339528"</span>  <span class="se">\</span>
+  <span class="nt">-H</span> <span class="s1">'Authorization: Basic 5vf2v7n5uk9jftrxaarrik39vk6yjm48'</span>
+</code></pre></div>
+<p>This endpoint returns the detentions the logged in user has.</p>
+<h1 id='parent-api-2'>Parent API</h1>
+<p>The base URL for the parent API is <code>https://www.classcharts.com/apiv2student</code>. The parent API is identical to the <a href="#student-api">student API</a>, except that the data returned is based on the student ID which is passed via each request and the <a href="#get-pupils">get pupils</a> endpoint.</p>
+<h2 id='get-pupils'>Get Pupils</h2><div class="highlight"><pre class="highlight typescript tab-typescript"><code><span class="kd">const</span> <span class="nx">data</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">parentClient</span><span class="p">.</span><span class="nx">getPupils</span><span class="p">()</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span>
+</code></pre></div><div class="highlight"><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://www.classcharts.com/apiv2parent/pupils"</span>  <span class="se">\</span>
+  <span class="nt">-H</span> <span class="s1">'Authorization: Basic eadyjtgk7fnnvvqxuadmmdr5aibntaaf'</span>
+</code></pre></div>
+<p>This endpoint returns an array of the pupils the logged in parent has access to, the response is very similar to the <a href="#student-info">student info</a> endpoint, aside from returning a couple more fields.</p>
 <h1 id='errors'>Errors</h1>
-<aside class="notice">
-This error section is stored in a separate file in <code>includes/_errors.md</code>. Slate allows you to optionally separate out your docs into many files...just save them to the <code>includes</code> folder and add them to the top of your <code>index.md</code>'s frontmatter. Files are included in the order listed.
-</aside>
-
-<p>The Kittn API uses the following error codes:</p>
-
-<table><thead>
-<tr>
-<th>Error Code</th>
-<th>Meaning</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>400</td>
-<td>Bad Request -- Your request is invalid.</td>
-</tr>
-<tr>
-<td>401</td>
-<td>Unauthorized -- Your API key is wrong.</td>
-</tr>
-<tr>
-<td>403</td>
-<td>Forbidden -- The kitten requested is hidden for administrators only.</td>
-</tr>
-<tr>
-<td>404</td>
-<td>Not Found -- The specified kitten could not be found.</td>
-</tr>
-<tr>
-<td>405</td>
-<td>Method Not Allowed -- You tried to access a kitten with an invalid method.</td>
-</tr>
-<tr>
-<td>406</td>
-<td>Not Acceptable -- You requested a format that isn&#39;t json.</td>
-</tr>
-<tr>
-<td>410</td>
-<td>Gone -- The kitten requested has been removed from our servers.</td>
-</tr>
-<tr>
-<td>418</td>
-<td>I&#39;m a teapot.</td>
-</tr>
-<tr>
-<td>429</td>
-<td>Too Many Requests -- You&#39;re requesting too many kittens! Slow down!</td>
-</tr>
-<tr>
-<td>500</td>
-<td>Internal Server Error -- We had a problem with our server. Try again later.</td>
-</tr>
-<tr>
-<td>503</td>
-<td>Service Unavailable -- We&#39;re temporarily offline for maintenance. Please try again later.</td>
-</tr>
-</tbody></table>
-
+<p>Classcharts doesn&#39;t return a different status code if you do something wrong. Instead, the JSON object it returns won&#39;t contain any data, and the <code>error</code> field will be populated with a description of the error.</p>
+<h2 id='example'>Example</h2><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"success"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"expired"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"error"</span><span class="p">:</span><span class="w"> </span><span class="s2">"You are not logged in. [1]"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"meta"</span><span class="p">:</span><span class="w"> </span><span class="p">[]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
       </div>
       <div class="dark-box">
           <div class="lang-selector">
                 <a href="#" data-language-name="shell">shell</a>
-                <a href="#" data-language-name="javascript">javascript</a>
+                <a href="#" data-language-name="typescript">typescript</a>
           </div>
       </div>
     </div>
