@@ -126,7 +126,6 @@ GEM
       concurrent-ruby (~> 1.0)
     uglifier (3.2.0)
       execjs (>= 0.3.0, < 3)
-    wdm (0.1.1)
     webrick (1.7.0)
     zeitwerk (2.5.1)
 
@@ -143,7 +142,6 @@ DEPENDENCIES
   redcarpet (~> 3.5.0)
   rouge (~> 3.21)
   sass
-  wdm (>= 0.1.0)
   webrick
 
 RUBY VERSION
