@@ -415,12 +415,14 @@
 <h2 id='requesting-data'>Requesting Data</h2>
 <p>With each request you must specify your <code>authorization</code> token, and optionally your student ID in the URL. However, it is <strong>required</strong> to specify the student ID when using the parent API, as Classcharts needs to know which student you would like to get data for.</p>
 <h1 id='student-api'>Student API</h1>
-<p>The base URL for the student API is <code>https://www.classcharts.com/apiv2student</code></p>
+<p>The base URL for the student API is <code>https://www.classcharts.com/apiv2student</code>  </p>
 <h2 id='student-info'>Student Info</h2><div class="highlight"><pre class="highlight typescript tab-typescript"><code><span class="kd">const</span> <span class="nx">data</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">studentClient</span><span class="p">.</span><span class="nx">getStudentInfo</span><span class="p">()</span>
 <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span>
 </code></pre></div><div class="highlight"><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://www.classcharts.com/apiv2student/ping"</span>  <span class="se">\</span>
   <span class="nt">-H</span> <span class="s1">'Authorization: Basic 5vf2v7n5uk9jftrxaarrik39vk6yjm48'</span>
 </code></pre></div>
+<p><code>GET https://www.classcharts.com/apiv2student/ping</code> </p>
+
 <p>Gets basic information about the logged in student and what access they have.</p>
 <h2 id='get-activity'>Get Activity</h2><div class="highlight"><pre class="highlight typescript tab-typescript"><code><span class="kd">const</span> <span class="nx">data</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">studentClient</span><span class="p">.</span><span class="nx">getActivity</span><span class="p">()</span>
 <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span>
@@ -431,13 +433,34 @@
   <span class="na">last_id</span><span class="p">:</span> <span class="mi">4563278</span>
 <span class="p">})</span>
 <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">specificData</span><span class="p">)</span>
-</code></pre></div><div class="highlight"><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://www.classcharts.com/apiv2student/activity"</span>  <span class="se">\</span>
+</code></pre></div><div class="highlight"><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://www.classcharts.com/apiv2student/activity/2339528"</span>  <span class="se">\</span>
   <span class="nt">-H</span> <span class="s1">'Authorization: Basic 5vf2v7n5uk9jftrxaarrik39vk6yjm48'</span>
 
-curl <span class="s2">"https://www.classcharts.com/apiv2student/activity?from=2000-12-20&amp;to=2022-03-20&amp;last_id=4563278"</span>  <span class="se">\</span>
+curl <span class="s2">"https://www.classcharts.com/apiv2student/activity/2339528?from=2000-12-20&amp;to=2022-03-20&amp;last_id=4563278"</span>  <span class="se">\</span>
   <span class="nt">-H</span> <span class="s1">'Authorization: Basic 5vf2v7n5uk9jftrxaarrik39vk6yjm48'</span>
 </code></pre></div>
+<p><code>GET https://www.classcharts.com/apiv2student/activity/[userId]</code> </p>
+
 <p>This endpoint gets the latest behaviour points for the logged in user. Optional <code>from</code> and <code>to</code> fields can be used to scope the request to specific dates. The <code>last_id</code> is used by Classcharts for paginiation, and can be used to get results after a specific behaviour point.</p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>from</td>
+<td>false</td>
+<td>From date</td>
+</tr>
+<tr>
+<td>to</td>
+<td>false</td>
+<td>To Date</td>
+</tr>
+</tbody></table>
 
 <aside class="notice">
     The <code>from</code> field does not work as you would expect, since this endpoint is meant for use only on the homepage of Classcharts, Classcharts returns a set amount of points from the `to` field. To get more points you will need to make use of the <code>last_id</code> field
@@ -456,7 +479,28 @@ curl <span class="s2">"https://www.classcharts.com/apiv2student/activity?from=20
 curl <span class="s2">"https://www.classcharts.com/apiv2student/behaviour/2339528?from=2000-12-20&amp;to=2022-03-20"</span>  <span class="se">\</span>
   <span class="nt">-H</span> <span class="s1">'Authorization: Basic 5vf2v7n5uk9jftrxaarrik39vk6yjm48'</span>
 </code></pre></div>
+<p><code>GET https://www.classcharts.com/apiv2student/behaviour/[userId]</code> </p>
+
 <p>This endpoint returns basic statistics on how many of each type of behaviour point the logged in student has recieved. Optional <code>from</code> and <code>to</code> fields can be used to get statistics between two dates.</p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>from</td>
+<td>false</td>
+<td>From date</td>
+</tr>
+<tr>
+<td>to</td>
+<td>false</td>
+<td>To Date</td>
+</tr>
+</tbody></table>
 <h2 id='get-homeworks'>Get Homeworks</h2><div class="highlight"><pre class="highlight typescript tab-typescript"><code><span class="kd">const</span> <span class="nx">data</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">studentClient</span><span class="p">.</span><span class="nx">listHomeworks</span><span class="p">()</span>
 <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span>
 
@@ -473,7 +517,33 @@ curl <span class="s2">"https://www.classcharts.com/apiv2student/behaviour/233952
 curl <span class="s2">"https://www.classcharts.com/apiv2student/homeworks/2339528?display_date=due_date&amp;from=2000-12-20&amp;to=2022-03-20"</span>  <span class="se">\</span>
   <span class="nt">-H</span> <span class="s1">'Authorization: Basic 5vf2v7n5uk9jftrxaarrik39vk6yjm48'</span>
 </code></pre></div>
+<p><code>GET https://www.classcharts.com/apiv2student/homeworks/[userId]</code> </p>
+
 <p>This endpoint returns homeworks the logged in user has. Optional <code>from</code> and <code>to</code> fields can be used to scope the request. The <code>display_date</code> field is used to either find homeworks by due date (<code>due_date</code>) or issue date (<code>issue_date</code>).</p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>from</td>
+<td>false</td>
+<td>From date</td>
+</tr>
+<tr>
+<td>to</td>
+<td>false</td>
+<td>To Date</td>
+</tr>
+<tr>
+<td>display_date</td>
+<td>false</td>
+<td>How to sort the homeworks (<code>due_date</code> or <code>issue_date</code>)</td>
+</tr>
+</tbody></table>
 <h2 id='get-timetable'>Get Timetable</h2><div class="highlight"><pre class="highlight typescript tab-typescript"><code><span class="kd">const</span> <span class="nx">data</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">studentClient</span><span class="p">.</span><span class="nx">getLessons</span><span class="p">({</span>
   <span class="na">date</span><span class="p">:</span> <span class="dl">'</span><span class="s1">2022-03-20</span><span class="dl">'</span> <span class="c1">// Date to get the timetable for must be provided</span>
 <span class="p">})</span>
@@ -482,32 +552,57 @@ curl <span class="s2">"https://www.classcharts.com/apiv2student/homeworks/233952
 curl <span class="s2">"https://www.classcharts.com/apiv2student/timetable/2339528?date=2022-03-20"</span>  <span class="se">\</span>
   <span class="nt">-H</span> <span class="s1">'Authorization: Basic 5vf2v7n5uk9jftrxaarrik39vk6yjm48'</span>
 </code></pre></div>
+<p><code>GET https://www.classcharts.com/apiv2student/timetable/[userId]</code> </p>
+
 <p>This endpoint gets the logged in users timetable for a specific day. The required <code>date</code> field specifies which day to get the timetable for.</p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>date</td>
+<td>true</td>
+<td>Date to get the timetable for</td>
+</tr>
+</tbody></table>
 <h2 id='get-badges'>Get Badges</h2><div class="highlight"><pre class="highlight typescript tab-typescript"><code><span class="kd">const</span> <span class="nx">data</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">studentClient</span><span class="p">.</span><span class="nx">getBadges</span><span class="p">()</span>
 <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span>
 </code></pre></div><div class="highlight"><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://www.classcharts.com/apiv2student/eventbadges/2339528"</span>  <span class="se">\</span>
   <span class="nt">-H</span> <span class="s1">'Authorization: Basic 5vf2v7n5uk9jftrxaarrik39vk6yjm48'</span>
 </code></pre></div>
+<p><code>GET https://www.classcharts.com/apiv2student/eventbadges/[userId]</code> </p>
+
 <p>This endpoint returns any badges the logged in user has, along with the behaviour point that triggered it.</p>
 <h2 id='get-announcements'>Get Announcements</h2><div class="highlight"><pre class="highlight typescript tab-typescript"><code><span class="kd">const</span> <span class="nx">data</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">studentClient</span><span class="p">.</span><span class="nx">listAnnouncements</span><span class="p">()</span>
 <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span>
 </code></pre></div><div class="highlight"><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://www.classcharts.com/apiv2student/announcements/2339528"</span>  <span class="se">\</span>
   <span class="nt">-H</span> <span class="s1">'Authorization: Basic 5vf2v7n5uk9jftrxaarrik39vk6yjm48'</span>
 </code></pre></div>
+<p><code>GET https://www.classcharts.com/apiv2student/announcements/[userId]</code> </p>
+
 <p>This endpoint returns the announcements for the logged in user sent by the school.</p>
 <h2 id='get-detentions'>Get Detentions</h2><div class="highlight"><pre class="highlight typescript tab-typescript"><code><span class="kd">const</span> <span class="nx">data</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">studentClient</span><span class="p">.</span><span class="nx">getDetentions</span><span class="p">()</span>
 <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span>
 </code></pre></div><div class="highlight"><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://www.classcharts.com/apiv2student/detentions/2339528"</span>  <span class="se">\</span>
   <span class="nt">-H</span> <span class="s1">'Authorization: Basic 5vf2v7n5uk9jftrxaarrik39vk6yjm48'</span>
 </code></pre></div>
+<p><code>GET https://www.classcharts.com/apiv2student/detentions/[userId]</code> </p>
+
 <p>This endpoint returns the detentions the logged in user has.</p>
 <h1 id='parent-api-2'>Parent API</h1>
-<p>The base URL for the parent API is <code>https://www.classcharts.com/apiv2student</code>. The parent API is identical to the <a href="#student-api">student API</a>, except that the data returned is based on the student ID which is passed via each request and the <a href="#get-pupils">get pupils</a> endpoint.</p>
+<p>The base URL for the parent API is <code>https://www.classcharts.com/apiv2student</code>.<br>
+The parent API is identical to the <a href="#student-api">student API</a>, except that the data returned is based on the student ID which is passed via each request and the <a href="#get-pupils">get pupils</a> endpoint.</p>
 <h2 id='get-pupils'>Get Pupils</h2><div class="highlight"><pre class="highlight typescript tab-typescript"><code><span class="kd">const</span> <span class="nx">data</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">parentClient</span><span class="p">.</span><span class="nx">getPupils</span><span class="p">()</span>
 <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span>
 </code></pre></div><div class="highlight"><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://www.classcharts.com/apiv2parent/pupils"</span>  <span class="se">\</span>
   <span class="nt">-H</span> <span class="s1">'Authorization: Basic eadyjtgk7fnnvvqxuadmmdr5aibntaaf'</span>
 </code></pre></div>
+<p><code>GET https://www.classcharts.com/apiv2parent/pupils</code>  </p>
+
 <p>This endpoint returns an array of the pupils the logged in parent has access to, the response is very similar to the <a href="#student-info">student info</a> endpoint, aside from returning a couple more fields.</p>
 <h1 id='errors'>Errors</h1>
 <p>Classcharts doesn&#39;t return a different status code if you do something wrong. Instead, the JSON object it returns won&#39;t contain any data, and the <code>error</code> field will be populated with a description of the error.</p>
