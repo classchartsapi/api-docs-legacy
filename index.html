@@ -471,7 +471,7 @@ curl <span class="s2">"https://www.classcharts.com/apiv2student/activity/2339528
 </tbody></table>
 
 <aside class="notice">
-    The <code>from</code> field does not work as you would expect, since this endpoint is meant for use only on the homepage of Classcharts, Classcharts returns a set amount of points from the `to` field. To get more points you will need to make use of the <code>last_id</code> field. Our <a href="https://github.com/Classcharts-API/js">javascript wrapper</a> provides a <code>client.getFullActivity()</code> helper function to do this for you.
+    The <code>from</code> field does not work as you would expect, since this endpoint is meant for pagination on the home page, Classcharts only returns a 50 points from the <code>to</code> field. To get more points you will need to make use of the <code>last_id</code> field. Our <a href="https://github.com/Classcharts-API/js">javascript wrapper</a> provides a <code>client.getFullActivity()</code> helper function to do this for you.
 </aside>
 <h2 id='get-behaviour'>Get Behaviour</h2><div class="highlight"><pre class="highlight typescript tab-typescript"><code><span class="kd">const</span> <span class="nx">data</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">studentClient</span><span class="p">.</span><span class="nx">getBehaviour</span><span class="p">()</span>
 <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span>
