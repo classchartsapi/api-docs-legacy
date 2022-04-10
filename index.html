@@ -433,6 +433,14 @@
   <span class="na">last_id</span><span class="p">:</span> <span class="mi">4563278</span>
 <span class="p">})</span>
 <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">specificData</span><span class="p">)</span>
+
+<span class="c1">// Our javascript libary provides a helper function to return all the activity data, without needing to use last_id</span>
+<span class="c1">// See the note on the left</span>
+<span class="kd">const</span> <span class="nx">fullSpecificData</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">studentClient</span><span class="p">.</span><span class="nx">getFullActivity</span><span class="p">({</span>
+  <span class="na">from</span><span class="p">:</span> <span class="dl">"</span><span class="s2">2000-12-20</span><span class="dl">"</span><span class="p">,</span>
+  <span class="na">to</span><span class="p">:</span> <span class="dl">"</span><span class="s2">2022-03-20</span><span class="dl">"</span><span class="p">,</span>
+<span class="p">})</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">fullSpecificData</span><span class="p">)</span>
 </code></pre></div><div class="highlight"><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://www.classcharts.com/apiv2student/activity/2339528"</span>  <span class="se">\</span>
   <span class="nt">-H</span> <span class="s1">'Authorization: Basic 5vf2v7n5uk9jftrxaarrik39vk6yjm48'</span>
 
@@ -463,7 +471,7 @@ curl <span class="s2">"https://www.classcharts.com/apiv2student/activity/2339528
 </tbody></table>
 
 <aside class="notice">
-    The <code>from</code> field does not work as you would expect, since this endpoint is meant for use only on the homepage of Classcharts, Classcharts returns a set amount of points from the `to` field. To get more points you will need to make use of the <code>last_id</code> field
+    The <code>from</code> field does not work as you would expect, since this endpoint is meant for use only on the homepage of Classcharts, Classcharts returns a set amount of points from the `to` field. To get more points you will need to make use of the <code>last_id</code> field. Our <a href="https://github.com/Classcharts-API/js">javascript wrapper</a> provides a <code>client.getFullActivity()</code> helper function to do this for you.
 </aside>
 <h2 id='get-behaviour'>Get Behaviour</h2><div class="highlight"><pre class="highlight typescript tab-typescript"><code><span class="kd">const</span> <span class="nx">data</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">studentClient</span><span class="p">.</span><span class="nx">getBehaviour</span><span class="p">()</span>
 <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span>
