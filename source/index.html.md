@@ -122,7 +122,7 @@ Parameter | Required | Description
 from | false | From date
 to | false | To Date
 <aside class="notice">
-    The <code>from</code> field does not work as you would expect, since this endpoint is meant for use only on the homepage of Classcharts, Classcharts returns a set amount of points from the `to` field. To get more points you will need to make use of the <code>last_id</code> field. Our <a href="https://github.com/Classcharts-API/js">javascript wrapper</a> provides a <code>client.getFullActivity()</code> helper function to do this for you.
+    The <code>from</code> field does not work as you would expect, since this endpoint is meant for pagination on the home page, Classcharts only returns a 50 points from the <code>to</code> field. To get more points you will need to make use of the <code>last_id</code> field. Our <a href="https://github.com/Classcharts-API/js">javascript wrapper</a> provides a <code>client.getFullActivity()</code> helper function to do this for you.
 </aside>
 
 ## Get Behaviour
