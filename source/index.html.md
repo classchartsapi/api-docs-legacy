@@ -97,6 +97,14 @@ const specificData = await studentClient.getActivity({
   last_id: 4563278
 })
 console.log(specificData)
+
+// Our javascript libary provides a helper function to return all the activity data, without needing to use last_id
+// See the note on the left
+const fullSpecificData = await studentClient.getFullActivity({
+  from: "2000-12-20",
+  to: "2022-03-20",
+})
+console.log(fullSpecificData)
 ```
 ```shell
 curl "https://www.classcharts.com/apiv2student/activity/2339528"  \
@@ -114,7 +122,7 @@ Parameter | Required | Description
 from | false | From date
 to | false | To Date
 <aside class="notice">
-    The <code>from</code> field does not work as you would expect, since this endpoint is meant for use only on the homepage of Classcharts, Classcharts returns a set amount of points from the `to` field. To get more points you will need to make use of the <code>last_id</code> field
+    The <code>from</code> field does not work as you would expect, since this endpoint is meant for use only on the homepage of Classcharts, Classcharts returns a set amount of points from the `to` field. To get more points you will need to make use of the <code>last_id</code> field. Our <a href="https://github.com/Classcharts-API/js">javascript wrapper</a> provides a <code>client.getFullActivity()</code> helper function to do this for you.
 </aside>
 
 ## Get Behaviour
