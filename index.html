@@ -602,7 +602,7 @@ curl <span class="s2">"https://www.classcharts.com/apiv2student/timetable/233952
 
 <p>This endpoint returns the detentions the logged in user has.</p>
 <h1 id='parent-api-2'>Parent API</h1>
-<p>The base URL for the parent API is <code>https://www.classcharts.com/apiv2student</code>.<br>
+<p>The base URL for the parent API is <code>https://www.classcharts.com/apiv2parent</code>.<br>
 The parent API is identical to the <a href="#student-api">student API</a>, except that the data returned is based on the student ID which is passed via each request and the <a href="#get-pupils">get pupils</a> endpoint.</p>
 <h2 id='get-pupils'>Get Pupils</h2><div class="highlight"><pre class="highlight typescript tab-typescript"><code><span class="kd">const</span> <span class="nx">data</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">parentClient</span><span class="p">.</span><span class="nx">getPupils</span><span class="p">()</span>
 <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span>
