@@ -241,7 +241,7 @@ curl "https://www.classcharts.com/apiv2student/detentions/2339528"  \
 This endpoint returns the detentions the logged in user has.
 
 # Parent API
-The base URL for the parent API is `https://www.classcharts.com/apiv2student`.  
+The base URL for the parent API is `https://www.classcharts.com/apiv2parent`.  
 The parent API is identical to the [student API](#student-api), except that the data returned is based on the student ID which is passed via each request and the [get pupils](#get-pupils) endpoint.
 
 ## Get Pupils
