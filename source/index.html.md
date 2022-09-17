@@ -160,8 +160,8 @@ console.log(data)
 
 const specificData = await studentClient.listHomeworks({
   displayDate: 'due_date', // Can be due_date or issue_date, defaults to due_date
-  fromDate: '2000-12-20',
-  toDate: '2022-03-20'
+  from: '2000-12-20',
+  to: '2022-03-20'
 })
 console.log(specificData)
 ```
