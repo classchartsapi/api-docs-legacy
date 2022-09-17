@@ -514,8 +514,8 @@ curl <span class="s2">"https://www.classcharts.com/apiv2student/behaviour/233952
 
 <span class="kd">const</span> <span class="nx">specificData</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">studentClient</span><span class="p">.</span><span class="nx">listHomeworks</span><span class="p">({</span>
   <span class="na">displayDate</span><span class="p">:</span> <span class="dl">'</span><span class="s1">due_date</span><span class="dl">'</span><span class="p">,</span> <span class="c1">// Can be due_date or issue_date, defaults to due_date</span>
-  <span class="na">fromDate</span><span class="p">:</span> <span class="dl">'</span><span class="s1">2000-12-20</span><span class="dl">'</span><span class="p">,</span>
-  <span class="na">toDate</span><span class="p">:</span> <span class="dl">'</span><span class="s1">2022-03-20</span><span class="dl">'</span>
+  <span class="na">from</span><span class="p">:</span> <span class="dl">'</span><span class="s1">2000-12-20</span><span class="dl">'</span><span class="p">,</span>
+  <span class="na">to</span><span class="p">:</span> <span class="dl">'</span><span class="s1">2022-03-20</span><span class="dl">'</span>
 <span class="p">})</span>
 <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">specificData</span><span class="p">)</span>
 </code></pre></div><div class="highlight"><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://www.classcharts.com/apiv2student/homeworks/2339528"</span>  <span class="se">\</span>
