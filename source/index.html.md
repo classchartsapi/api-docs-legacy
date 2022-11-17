@@ -40,12 +40,17 @@ curl -X POST "https://www.classcharts.com/student/login" \
    -d '_method=POST&code=12GFKDQY&dob=20/1/2000' \
    -sD - --output /dev/null
 
-# In the response your auth token will be in a JSON object called
+# In the response your (short lived) auth token will be in a JSON object called
 # student_session_credentials returned from a set-cookie header:
 
-# set-cookie: student_session_credentials={"remember_me":false,"session_id":"a77dshds3jsd8sdfh2k3};
+# set-cookie: student_session_credentials={"remember_me":false,"session_id":"a77dshds3jsd8sdfh2k3"};
 ```
-To authenticate with the student API, you need to provide your classcharts code and date of birth. Classcharts returns your auth token in a cookie, this means you need to look for a header called `set-cookie` setting a header called `student_session_credentials`. This header contains your `session_id`, which is also used as an auth token.
+To authenticate with the student API, you need to provide your classcharts code and date of birth. Classcharts returns a short lived auth token in a cookie, this means you need to look for a header called `set-cookie` setting a cookie called `student_session_credentials`. This header contains your `session_id`, which is required to obtain your auth token. When using this token, call the [student info](#student-info) endpoint in which the `session_id` is your new auth token.
+#### In Short:
+1. Login using the above endpoint
+2. Use the `session_id` from the `set-cookie` header in your authentication header
+3. Call the [student info](#student-info) and use the token in `session_id` as your new authentication token in all future requests
+An implemention can be found in the [JS Client Library](https://github.com/classchartsapi/classcharts-api-js/blob/a192c0f799c7891dfe16535e084b658ef6425511/src/studentClient.ts#L31)
 ### Parent API
 ```typescript
 import { ClasschartsParentClient } from 'classcharts-api'
