@@ -396,7 +396,9 @@
 
 <span class="c"># set-cookie: student_session_credentials={"remember_me":false,"session_id":"a77dshds3jsd8sdfh2k3};</span>
 </code></pre></div>
-<p>To authenticate with the student API, you need to provide your classcharts code and date of birth. Classcharts returns your authentication token in a cookie, this means you need to look for a header called <code>set-cookie</code> setting a header called <code>student_session_credentials</code>. This header contains your <code>session_id</code>, which is also used as an authentication token. This authentication token needs to be revalidated every 180 seconds by calling the /ping (Student Info) endpoint and using the session id provided (<code>pingData.meta.session_id</code>) as your new authentication token.</p>
+<p>To access the student API, you must provide your ClassCharts code and date of birth in a POST request to the <code>/student/login</code> endpoint. After providing these details, you will receive an authentication token in the form of a cookie. The cookie will be set by a header called <code>set-cookie</code> and will be named <code>student_session_credentials</code>. Inside this cookie, you will find a <code>session_id</code> which is your authentication token.</p>
+
+<p>This authentication token needs to be renewed every 180 seconds. To do this, you must perform a GET request to the <code>/ping</code> (Student Info) endpoint, the new session ID will be returned in the response body (<code>data.meta.session_id</code>).</p>
 <h3 id='parent-api'>Parent API</h3><div class="highlight"><pre class="highlight typescript tab-typescript"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">ParentClient</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">classcharts-api</span><span class="dl">"</span><span class="p">;</span>
 <span class="kd">const</span> <span class="nx">parentClient</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ParentClient</span><span class="p">(</span><span class="dl">"</span><span class="s2">bob@example.com</span><span class="dl">"</span><span class="p">,</span> <span class="dl">"</span><span class="s2">Passw0rd</span><span class="dl">"</span><span class="p">);</span>
 
@@ -413,7 +415,9 @@
 </code></pre></div>
 <p>To authenticate with the parent API you need to provide your email address and password. The authentication token is obtained the same way as the above student API.</p>
 <h2 id='requesting-data'>Requesting Data</h2>
-<p>With each request you must specify your <code>authorization</code> token, and optionally your student ID in the URL. However, it is <strong>required</strong> to specify the student ID when using the parent API, as Classcharts needs to know which student you would like to get data for.</p>
+<p>With each request you must specify your authentication token in the <code>authorization</code> header, and optionally your student ID in the URL. However, it is <strong>required</strong> to specify the student ID when using the parent API, as Classcharts needs to know which student you would like to get data for.</p>
+
+<p>E.g. <code>https://www.classcharts.com/apiv2student/activity/2339528</code> with the header: <code>Authorization: Basic 5vf2v7n5uk9jftrxaarrik39vk6yjm48</code>.</p>
 <h1 id='student-api'>Student API</h1>
 <p>The base URL for the student API is <code>https://www.classcharts.com/apiv2student</code></p>
 <h2 id='student-info'>Student Info</h2><div class="highlight"><pre class="highlight typescript tab-typescript"><code><span class="kd">const</span> <span class="nx">data</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">studentClient</span><span class="p">.</span><span class="nx">getStudentInfo</span><span class="p">();</span>
@@ -450,7 +454,7 @@ curl <span class="s2">"https://www.classcharts.com/apiv2student/activity/2339528
 </code></pre></div>
 <p><code>GET https://www.classcharts.com/apiv2student/activity/[userId]</code></p>
 
-<p>This endpoint gets the latest behaviour points for the logged in user. Optional <code>from</code> and <code>to</code> fields can be used to scope the request to specific dates. The <code>last_id</code> is used by Classcharts for paginiation, and can be used to get results after a specific behaviour point.</p>
+<p>This endpoint gets the latest behaviour points for the logged in user. Optional <code>from</code> and <code>to</code> fields can be used to scope the request to specific dates. The <code>last_id</code> is used by Classcharts for pagination, and can be used to get results after a specific behaviour point.</p>
 
 <table><thead>
 <tr>
@@ -490,7 +494,7 @@ curl <span class="s2">"https://www.classcharts.com/apiv2student/behaviour/233952
 </code></pre></div>
 <p><code>GET https://www.classcharts.com/apiv2student/behaviour/[userId]</code></p>
 
-<p>This endpoint returns basic statistics on how many of each type of behaviour point the logged in student has recieved. Optional <code>from</code> and <code>to</code> fields can be used to get statistics between two dates.</p>
+<p>This endpoint returns basic statistics on how many of each type of behaviour point the logged in student has received. Optional <code>from</code> and <code>to</code> fields can be used to get statistics between two dates.</p>
 
 <table><thead>
 <tr>
