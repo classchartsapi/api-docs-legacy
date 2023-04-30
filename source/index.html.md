@@ -49,7 +49,9 @@ curl -X POST "https://www.classcharts.com/student/login" \
 # set-cookie: student_session_credentials={"remember_me":false,"session_id":"a77dshds3jsd8sdfh2k3};
 ```
 
-To authenticate with the student API, you need to provide your classcharts code and date of birth. Classcharts returns your authentication token in a cookie, this means you need to look for a header called `set-cookie` setting a header called `student_session_credentials`. This header contains your `session_id`, which is also used as an authentication token. This authentication token needs to be revalidated every 180 seconds by calling the /ping (Student Info) endpoint and using the session id provided (`pingData.meta.session_id`) as your new authentication token.
+To access the student API, you must provide your ClassCharts code and date of birth in a POST request to the `/student/login` endpoint. After providing these details, you will receive an authentication token in the form of a cookie. The cookie will be set by a header called `set-cookie` and will be named `student_session_credentials`. Inside this cookie, you will find a `session_id` which is your authentication token.
+
+This authentication token needs to be renewed every 180 seconds. To do this, you must perform a GET request to the `/ping` (Student Info) endpoint, the new session ID will be returned in the response body (`data.meta.session_id`).
 
 ### Parent API
 
@@ -76,7 +78,9 @@ To authenticate with the parent API you need to provide your email address and p
 
 ## Requesting Data
 
-With each request you must specify your `authorization` token, and optionally your student ID in the URL. However, it is **required** to specify the student ID when using the parent API, as Classcharts needs to know which student you would like to get data for.
+With each request you must specify your authentication token in the `authorization` header, and optionally your student ID in the URL. However, it is **required** to specify the student ID when using the parent API, as Classcharts needs to know which student you would like to get data for.
+
+E.g. `https://www.classcharts.com/apiv2student/activity/2339528` with the header: `Authorization: Basic 5vf2v7n5uk9jftrxaarrik39vk6yjm48`.
 
 # Student API
 
@@ -131,7 +135,7 @@ curl "https://www.classcharts.com/apiv2student/activity/2339528?from=2000-12-20&
 
 `GET https://www.classcharts.com/apiv2student/activity/[userId]`
 
-This endpoint gets the latest behaviour points for the logged in user. Optional `from` and `to` fields can be used to scope the request to specific dates. The `last_id` is used by Classcharts for paginiation, and can be used to get results after a specific behaviour point.
+This endpoint gets the latest behaviour points for the logged in user. Optional `from` and `to` fields can be used to scope the request to specific dates. The `last_id` is used by Classcharts for pagination, and can be used to get results after a specific behaviour point.
 
 | Parameter | Required | Description |
 | --------- | -------- | ----------- |
@@ -165,7 +169,7 @@ curl "https://www.classcharts.com/apiv2student/behaviour/2339528?from=2000-12-20
 
 `GET https://www.classcharts.com/apiv2student/behaviour/[userId]`
 
-This endpoint returns basic statistics on how many of each type of behaviour point the logged in student has recieved. Optional `from` and `to` fields can be used to get statistics between two dates.
+This endpoint returns basic statistics on how many of each type of behaviour point the logged in student has received. Optional `from` and `to` fields can be used to get statistics between two dates.
 
 | Parameter | Required | Description |
 | --------- | -------- | ----------- |
